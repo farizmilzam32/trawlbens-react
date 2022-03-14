@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Banner from "./components/home/Banner";
 import Blog from "./components/home/Blog";
-import Calculate from "./components/home/Calculate";
+import Calculate from "./components/home/CheckPrice";
 import Corporate from "./components/home/Corporate";
 import CustomerReview from "./components/home/CustomerReview";
 import Hero from "./components/home/Hero";

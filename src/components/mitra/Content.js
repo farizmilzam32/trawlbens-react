@@ -8,7 +8,7 @@ import { ReactComponent as Content6 } from "./assets/images/menggunakan-teknolog
 
 const Content = () => {
   return (
-    <div>
+    <div className="container mx-auto">
       <h1 className="text-center text-3xl mt-10">
         Kenapa Harus Menjadi Mitra Trawlbens?
       </h1>
