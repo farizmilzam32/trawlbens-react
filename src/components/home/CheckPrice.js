@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import FormControl from "@mui/material/FormControl"
 
 const checks = [
   {
@@ -56,6 +57,9 @@ const CheckPrice = () => {
     loadRegency();
   }, [text]);
   const [inputDestination, setInputDestination] = useState([]);
+  const test = (value) => {
+    console.log("ini suggestions id", value);
+  }
   const onSuggestHandler = (text) => {
     setText(text);
     setSuggestions([]);
@@ -154,11 +158,12 @@ const CheckPrice = () => {
                       className=""
                       onClick={() => [
                         onSuggestHandler([
-                          // suggestions.regency + " ",
-                          // suggestions.district + " ",
-                          // suggestions.sub_district,
-                          suggestions.id,
+                          suggestions.regency + " ",
+                          suggestions.district + " ",
+                          suggestions.sub_district,
+                          // suggestions.id,
                         ]),
+                        test(suggestions.id)
                       ]}
                     >
                       {suggestions.regency} | {suggestions.district} |
