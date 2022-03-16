@@ -4,14 +4,14 @@ const Brand = () => {
   return (
     <div className="container mx-auto my-14">
       <div className="grid md:grid-cols-2">
-        <div className="grid grid-rows-2 gap-2">
+        <div className="grid grid-rows-2 gap-6">
           <h1 className="font-bold text-3xl">Dipercaya oleh brand teratas</h1>
           <p>
             Kami telah dipercaya melakukan pengiriman barang bersama ribuan
             pengusaha, UMKM dan brand perusahaan ternama di seluruh Indonesia
           </p>
         </div>
-        <div className="grid grid-cols-4">
+        <div className="grid grid-cols-4 mt-4">
           <img
             src="https://media.graphcms.com/XNngJvlwQra3HVhuvYE8"
             alt=""

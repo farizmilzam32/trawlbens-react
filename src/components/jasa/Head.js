@@ -34,19 +34,23 @@ const Head = (props) => {
           <h1 className="text-[25px] text-putih">
             Spesialis Kirim Barang Diatas 10 kg dan 1 ton
           </h1>
-          <button className="m-4 px-4 py-2 text-putih bg-[#253E25] rounded-xl border-solid border-2 text-[20px]">
-            Chat Sekarang
-          </button>
-          <div className="grid grid-rows-2 md:grid-cols-2 m-24">
+          <a href="https://wa.me/6281399000000">
+            <button className="m-4 px-4 py-2 text-putih bg-[#253E25] rounded-xl border-solid border-2 text-[20px]">
+              Chat Sekarang
+            </button>
+          </a>
+          <div className="grid grid-rows-2 md:grid-cols-2 ml-16 md:m-24 ">
             <img src={logoTrawlbens} alt="" />
-            <img src={logoGooglePlay} alt="" />
+            <a href="https://play.google.com/store/apps/details?id=app.trawlbens.customer">
+              <img src={logoGooglePlay} alt="" className="ml-8 md: m-0" />
+            </a>
           </div>
         </div>
         <div>
           <img
             src="https://media.graphcms.com/joPoIqVPRQZneVqnHKSx"
             alt="banner-1"
-            className="w-11/12"
+            className="w-11/12 ml-4 mt-8"
           />
         </div>
       </div>

@@ -40,26 +40,42 @@ const Footer = () => {
           </div>
           <div>
             <h1 className="text-3xl font-bold">Hubungi</h1>
-            <div className="grid grid-rows-1 gap-4 mt-8 mr-8 md:grid-cols-2">
+            <div className="grid grid-rows-1 gap-4 mt-8 mr-8 md:grid-rows-1 text-sm">
               <div>
                 <p>Customer Services</p>
-                <p>0811908572</p>
-                <p>deal@trawlbens.id</p>
+                <a href="https://wa.me/62811908572">
+                  <p>0811908572</p>
+                </a>
+                <a href="mailto:deal@trawlbens.id">
+                  <p>deal@trawlbens.id</p>
+                </a>
               </div>
               <div className="">
                 <p>Marketing</p>
-                <p>081399000000</p>
-                <p>sales@trawlbens.id</p>
+                <a href="https://wa.me/6281399000000">
+                  <p>081399000000</p>
+                </a>
+                <a href="mailto:deal@trawlbens.id">
+                  <p>sales@trawlbens.id</p>
+                </a>
               </div>
               <div>
                 <p>Customer Care</p>
-                <p>0811289000</p>
-                <p>care@trawlbens.id</p>
+                <a href="https://wa.me/620811289000">
+                  <p>0811289000</p>
+                  <a href="mailto:care@trawlbens.id">
+                    <p>care@trawlbens.id</p>
+                  </a>
+                </a>
               </div>
               <div>
                 <p>Mitra dan Agent</p>
-                <p>081210852607</p>
-                <p>halim@trawlbens.id</p>
+                <a href="https://wa.me/6281210852607">
+                  <p>081210852607</p>
+                </a>
+                <a href="mailto:halim@trawlbens.id">
+                  <p>halim@trawlbens.id</p>
+                </a>
               </div>
             </div>
           </div>

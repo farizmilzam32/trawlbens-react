@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import FormControl from "@mui/material/FormControl"
+import FormControl from "@mui/material/FormControl";
 
 const checks = [
   {
@@ -18,7 +18,7 @@ const CheckPrice = () => {
     const name = e.target.name;
     setActiveButton(name);
   };
-  const [origin, setOrigin] = useState([""]);
+  const [origin, setOrigin] = useState([]);
   useEffect(() => {
     axios
       .get(
@@ -36,8 +36,6 @@ const CheckPrice = () => {
   }, []);
   const [regency, setRegency] = useState([]);
   const [text, setText] = useState("");
-  const [id, setId] = useState("");
-  const [price, setPrice] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   useEffect(() => {
     const loadRegency = async () => {
@@ -57,14 +55,13 @@ const CheckPrice = () => {
     loadRegency();
   }, [text]);
   const [inputDestination, setInputDestination] = useState([]);
-  const test = (value) => {
-    console.log("ini suggestions id", value);
-  }
+  const getDestination = (value) => {
+    setInputDestination(value);
+  };
   const onSuggestHandler = (text) => {
     setText(text);
     setSuggestions([]);
     setInputDestination(text);
-    console.log(text);
   };
   const onChangeHandler = (text) => {
     let matches = [];
@@ -77,25 +74,64 @@ const CheckPrice = () => {
     setSuggestions(matches);
     setText(text);
   };
-  const onFetchIdDestination = (id) => {
-    setId(id);
-  };
   const [inputOrigin, setInputOrigin] = useState([]);
   const handleClickOrigin = (e) => {
     const value = e.target.value;
     setInputOrigin(value);
-    console.log(value);
   };
+
+  const [price, setPrice] = useState([]);
   useEffect(() => {
-    const loadPrice = async () => {
-      const response = await axios.get(
+    axios
+      .get(
         `https://www.trawlbens.com/api/pricing/tarif?origin_id=${inputOrigin}&destination_id=${inputDestination}&service_code=tps`
-      );
-      setPrice(response.data.data);
-      console.log(response.data.data.tier_1);
-    };
-    loadPrice();
+      )
+      .then((response) => {
+        const price = response.data.data.tier_1;
+        const notes = response.data.data.notes;
+        setPrice({ price, notes });
+      });
   }, [inputOrigin, inputDestination]);
+
+  const [data, setData] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(`"Form sumbitted", ${data}`);
+  };
+  const [packages, setPackage] = useState([]);
+  useEffect(() => {
+    const loadPackages = async () => {
+      await axios
+        .get(
+          `https://www.trawlbens.com/api/order/find?per_page=-1&code=${data}`
+        )
+        .then((response) => {
+          const senderName = response.data.data.package.sender_name;
+          const receiverName = response.data.data.package.receiver_name;
+          setPackage({ senderName, receiverName });
+        });
+    };
+    loadPackages();
+  }, [data]);
+  const [track, setTrack] = useState([]);
+  useEffect(() => {
+    const loadTrack = async () => {
+      await axios
+        .get(
+          `https://www.trawlbens.com/api/order/find?per_page=-1&code=${data}`
+        )
+        .then((response) => {
+          const transformedTrack = response.data.data.track.map((trackData) => {
+            return {
+              date: trackData.created_at,
+              description: trackData.description,
+            };
+          });
+          setTrack(transformedTrack);
+        });
+    };
+    loadTrack();
+  }, [data]);
   return (
     <div className="md:wrapper mx-8 my-4">
       <div className="card p-8">
@@ -121,23 +157,23 @@ const CheckPrice = () => {
         </div>
         {activeButton === "Cek Tarif" && (
           <FormControl fullwidth>
-            <div className="grid grid-cols-1 md:grid-cols-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <label htmlFor="kotaAsal" className="font-bold">
                   Kota Asal Pengiriman
                 </label>
                 <select
-                  className="w-11/12 border-style"
+                  className="w-12/12 border-style"
                   id="kotaAsal"
                   type="text"
                   placeholder="Masukkan kota asal"
                   onChange={handleClickOrigin}
                 >
+                  <option>Masukkan Kota Asal</option>
                   {origin.map((item) => {
                     return <option value={item.id}>{item.name}</option>;
                   })}
                 </select>
-                <p></p>
               </div>
               <div>
                 <label htmlFor="kotaTujuan" className="font-bold">
@@ -161,9 +197,8 @@ const CheckPrice = () => {
                           suggestions.regency + " ",
                           suggestions.district + " ",
                           suggestions.sub_district,
-                          // suggestions.id,
                         ]),
-                        test(suggestions.id)
+                        getDestination(suggestions.id),
                       ]}
                     >
                       {suggestions.regency} | {suggestions.district} |
@@ -181,19 +216,31 @@ const CheckPrice = () => {
               <label htmlFor="berat">Volume</label>
             </div>
             <div>
-              <p className="font-bold">Tarif</p>
-              <p className="">Rp. 4500/kg</p>
-              <p className="text-sm">
-                estimasi barang sampai dalam 2-3 hari sejak truk berangkat
-              </p>
-              <p className="text-sm">
-                * Tidak termasuk packing, asuransi, dan PPN.
-              </p>
+              {price.price ? (
+                <div>
+                  <h1 className="font-bold mb-10">Tarif</h1>
+                  <h1>Rp. {price.price}</h1>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            <div>
+              {price.notes ? (
+                <div>
+                  <h1 className="mb-10">{price.notes}</h1>
+                  <p className="font-extralight text-sm">
+                    * Tidak termasuk packing, asuransi, dan PPN
+                  </p>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </FormControl>
         )}
         {activeButton === "Lacak Barang" && (
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="grid grid-rows-1">
               <label className="font-bold">Resi</label>
               <div className="flex">
@@ -202,10 +249,49 @@ const CheckPrice = () => {
                   id="resi"
                   type="text"
                   placeholder="Masukkan Resi"
+                  onChange={(e) => setData(e.target.value)}
+                  value={data}
                 />
-                <button className="px-8 rounded-r-lg bg-yellow-400 text-gray-800 font-bold p-4 uppercase border-yellow-500 border-t border-b border-r">
+                <button
+                  type="submit"
+                  className="px-4 rounded-r-lg bg-yellow-400 text-gray-800 font-bold p-4 uppercase border-yellow-500 border-t border-b border-r"
+                >
                   Submit
                 </button>
+              </div>
+              <div className="grid grid-rows-1 gap-4 md:grid-cols-2">
+                <div className="grid grid-rows-2">
+                  <h1>
+                    {packages.senderName ? (
+                      <div>
+                        <h1>Pengirim</h1>
+                        <h1>{packages.senderName}</h1>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </h1>
+                  <h1>
+                    {packages.receiverName ? (
+                      <div>
+                        <h1>Penerima</h1>
+                        <h1>{packages.receiverName}</h1>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </h1>
+                </div>
+                <div className="grid grid-rows-6">
+                  {track.map((track) => {
+                    return (
+                      <div>
+                        <h1>{track.date}</h1>
+                        <h1>{track.description}</h1>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </form>

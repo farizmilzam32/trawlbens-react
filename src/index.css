@@ -62,3 +62,35 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.background-banner {
+  background-image: url("https://media.graphcms.com/Tom5rAKWR4OCxtGj3p2V");
+}
+
+.fixed-right {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+.fixed-left {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+@media all and (min-width: 1200px) {
+  .position-fixed {
+    position: fixed;
+    width: 1600px;
+  }
+}
+
+.container-flex {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item {
+  flex: 1 1 190px;
+}
